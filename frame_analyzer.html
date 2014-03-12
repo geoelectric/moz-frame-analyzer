@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Timestamps</title>
+</head>
+<body>
+
+<div id="output">
+</div>
+
+<script>
+
+const DISPLAY_FRAME_RATE = 60;
+const REFRESH_INTERVAL = (1000 / DISPLAY_FRAME_RATE);
+
+const NUM_FRAMES = 120;
+
+output = document.getElementById('output');
+output.innerHTML = '';
+
+function writeOut(str) {
+  output.innerHTML += str.toString() + '\n';
+}
+
+function runTest() {
+  var timings = [];
+  var sample = 0;
+
+  writeOut('<h1>Testing requestAnimationFrame Timing</h1>');
+  writeOut('<br>');
+
+  for (sample = 0; sample < NUM_FRAMES; sample++) {
+    timings[sample] = 0;
+  }
+
+  sample = 0;
+  function getFrame(timestamp) {
+    timings[sample] = timestamp;
+
+    if (++sample < NUM_FRAMES) {
+      window.requestAnimationFrame(getFrame);
+    }
+    else {
+      writeResults(timings);
+    }
+  }
+  window.requestAnimationFrame(getFrame);
+}
+
+function writeResults(timings) {
+  var frameRequested = 0;
+  var elapsed = 0;
+  var lastElapsed = 0;
+  var interval = 0;
+  var targetFrameDeadline = 0;
+  var actualFrame = 0;
+  var actualFrameDeadline = 0;
+  var concurrentFrame = 0;
+  var concurrentFrameDeadline = 0;
+  var lastFrameRefresh = 0;
+  var processingWindow = 0;
+  var framesAhead = 0;
+  var lastFramesAhead = 0;
+  var framesSkipped = 0;
+  var offsetChangeStr = '';
+
+  table = ''
+  table += ('<table border="1" cellpadding="4"');
+  table += ('<tr>');
+  table += ('<th>Frame Requested</th>');
+  table += ('<th>Concurrent Frame</th>');
+  table += ('<th>Target Frame</th>');
+  table += ('<th>Actual Frame</th>');
+  table += ('<th>ms Elapsed</th>')
+  table += ('<th>ms Interval</th>');
+  table += ('<th>Concurrent Frame Deadline</th>');
+  table += ('<th>Target Frame Deadline</th>');
+  table += ('<th>Actual Frame Deadline</th>');
+  table += ('<th>Processing Window</th>');
+  table += ('<th>Offset Change</th>');
+  table += ('</tr>');
+
+  var targetFrame = 1;
+  var startOffset = timings[0];
+
+  for (var sample = 0; sample < NUM_FRAMES; sample++) {
+    frameRequested = sample + 1;
+    elapsed = timings[sample] - startOffset;
+    interval = (elapsed - lastElapsed);
+    concurrentFrame = Math.floor(elapsed / REFRESH_INTERVAL) + 1;
+    concurrentFrameDeadline = concurrentFrame * REFRESH_INTERVAL;
+
+    targetFrameDeadline = targetFrame * REFRESH_INTERVAL;
+    if (targetFrameDeadline > elapsed) {
+      actualFrame += 1;
+    }
+    else {
+      actualFrame = concurrentFrame;
+    }
+    actualFrameDeadline = actualFrame * REFRESH_INTERVAL;
+
+    processingWindow = actualFrameDeadline - elapsed;
+
+    framesAhead = actualFrame - concurrentFrame;
+    framesSkipped = actualFrame - targetFrame;
+    if (framesAhead > 0 && lastFramesAhead !== framesAhead)
+      offsetChangeStr = 'Ahead +' + framesAhead;
+    else if (framesAhead === 0 && lastFramesAhead !== framesAhead)
+      offsetChangeStr = 'Caught up'
+    else if (framesSkipped)
+      offsetChangeStr = '<b>Skipped ' + framesSkipped + '!</b>';
+    else
+      offsetChangeStr = '';
+
+    table += ('<tr>');
+    table += ('<td>' + frameRequested + '</td>');
+    table += ('<td>' + concurrentFrame + '</td>');
+    table += ('<td>' + targetFrame + '</td>');
+    table += ('<td>' + actualFrame + '</td>');
+    table += ('<td>' + elapsed.toFixed(2) + '</td>');
+    table += ('<td>' + interval.toFixed(2) + '</td>');
+    table += ('<td>' + concurrentFrameDeadline.toFixed(2) + '</td>');
+    table += ('<td>' + targetFrameDeadline.toFixed(2) +'</td>');
+    table += ('<td>' + actualFrameDeadline.toFixed(2) + '</td>');
+    table += ('<td>' + processingWindow.toFixed(2) + '</td>');
+    table += ('<td>' + offsetChangeStr + '</td>');
+    table += ('</tr>');
+
+    lastFramesAhead = framesAhead;
+    lastElapsed = elapsed;
+    targetFrame = Math.max(actualFrame + 1, targetFrame + 1);
+  }
+
+  table += ('</table>');
+  writeOut(table);
+}
+
+runTest()
+</script>
+
+</body>
+</html>
