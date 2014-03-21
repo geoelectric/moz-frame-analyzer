@@ -1,20 +1,16 @@
 MozFrameAnalyzer is a JS class you can call from any requestAnimationFrame driven animation to give you a number of statistics about the animation loop:
 
-Frame Requested: sequence of the request
-ms Elapsed since Animation Start
-ms Interval since last frame request
-
-Concurrent Refresh: which refresh is executing while the request is made?
-Target Refresh: which refresh should this request be in time for?
-Delivered Refresh: which refresh was this request be in time for?
-
-Concurrent Refresh Deadline: at what ms did the concurrent refresh render?
-Target Refresh Deadline: at what ms did the target refresh render?
-Delivered Frame Deadline: at what ms did the delivered refresh render?
-
-Processing Window: how many ms was there between the request and the render?
-
-Offset Change: tells when frames start being requested ahead of their refresh (e.g. frame 3 requested during refresh 2's render window), when the sequence catches up to synced, and when refreshes are skipped due to missed render windows.
+* Frame Requested: sequence of the request
+* ms Elapsed since Animation Start
+* ms Interval since last frame request
+* Concurrent Refresh: which refresh is executing while the request is made?
+* Target Refresh: which refresh should this request be in time for?
+* Delivered Refresh: which refresh was this request be in time for?
+* Concurrent Refresh Deadline: at what ms did the concurrent refresh render?
+* Target Refresh Deadline: at what ms did the target refresh render?
+* Delivered Frame Deadline: at what ms did the delivered refresh render?
+* Processing Window: how many ms was there between the request and the render?
+* Offset Change: tells when frames start being requested ahead of their refresh (e.g. frame 3 requested during refresh 2's render window), when the sequence catches up to synced, and when refreshes are skipped due to missed render windows.
 
 ---
 
