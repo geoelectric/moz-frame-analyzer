@@ -126,10 +126,10 @@ function mozFrameAnalyzer_data_toHtmlTable() {
     table += ('<td>' + this[i].elapsed.toFixed(2) + '</td>');
     table += ('<td>' + this[i].interval.toFixed(2) + '</td>');
     table += ('<td>' + this[i].concurrentRefreshDeadline.toFixed(2) +
-     '</td>');
+                       '</td>');
     table += ('<td>' + this[i].targetRefreshDeadline.toFixed(2) +'</td>');
     table += ('<td>' + this[i].deliveredRefreshDeadline.toFixed(2) +
-     '</td>');
+                       '</td>');
     table += ('<td>' + this[i].processingWindow.toFixed(2) + '</td>');
     table += ('<td>' + offsetChangeStr + '</td>');
     table += ('</tr>');
