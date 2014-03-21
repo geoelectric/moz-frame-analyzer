@@ -82,7 +82,7 @@ MozFrameAnalyzer.prototype = {
 
 MozFrameAnalyzer.prototype.constructor = MozFrameAnalyzer;
 
-function mozFrameAnalyzer_data_toHtmlTable() {
+function _mozFrameAnalyzer_data_toHtmlTable() {
   var table = ''
   table += ('<table border="1" cellpadding="4"');
   table += ('<tr>');
