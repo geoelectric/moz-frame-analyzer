@@ -70,7 +70,7 @@ MozFrameAnalyzer.prototype = {
   reset: function mozFrameAnalyzer_reset(framesExpected) {
     this._framesExpected = framesExpected;
     this._framesCaptured = 0;
-    this._timestamps = new Array(framesExpected);
+    this._timestamps = [];
 
     if (this.framesExpected) {
       for(var i = 0; i < this.framesExpected; i++) {
