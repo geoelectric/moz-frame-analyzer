@@ -82,7 +82,7 @@ MozFrameAnalyzer.prototype = {
 
 MozFrameAnalyzer.prototype.constructor = MozFrameAnalyzer;
 
-function _mozFrameAnalyzer_data_toHtmlTable() {
+function _mozFrameAnalyzer_data_toHtmlTable(verbose) {
   var table = ''
   table += ('<table border="1" cellpadding="4"');
   table += ('<tr>');
@@ -105,10 +105,10 @@ function _mozFrameAnalyzer_data_toHtmlTable() {
   var len = this.length;
   for (var i = 0; i < len; i++) {
     if (this[i].refreshesOffset > 0 &&
-        lastOffset !== this[i].refreshesOffset) {
+        lastOffset !== this[i].refreshesOffset && verbose) {
       offsetChangeStr = 'Ahead +' + this[i].refreshesOffset;
     }
-    else if (this[i].refreshesOffset === 0 && lastOffset > 0) {
+    else if (this[i].refreshesOffset === 0 && lastOffset > 0 && verbose) {
       offsetChangeStr = 'Caught up';
     }
     else if (this[i].refreshesOffset < 0) {
