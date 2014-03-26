@@ -62,7 +62,7 @@ MozFrameAnalyzer.prototype = {
       data.push(frame);
     }
 
-    data.toHtmlTable = mozFrameAnalyzer_data_toHtmlTable;
+    data.toHtmlTable = _mozFrameAnalyzer_data_toHtmlTable;
 
     return data;
   },
